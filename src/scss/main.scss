@@ -1,0 +1,30 @@
+@import "bootstrap/scss/functions"; 
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/mixins";
+
+$font-size-root: 12px;
+
+$form-floating-height:            add(3rem, $input-height-border);
+$form-floating-padding-y:         0;
+$form-floating-input-padding-t:   0;
+$form-floating-input-padding-b:   0;
+$form-floating-label-opacity:     1;
+$form-floating-label-transform:   scale(.85) translateY(-0.75rem);
+
+$enable-shadows: true;
+
+label {
+    z-index: 10;
+    & > span {
+        background-color: white;
+        opacity: 0.8;
+        border-radius: 8px;
+    }
+}
+
+tr, td, th {
+    border: none !important;
+    background-color: white;
+}
+
+@import "bootstrap/scss/bootstrap";
