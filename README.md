@@ -2,7 +2,7 @@
 
 ![](src/public/calc.png)
 
-https://pokemon-calcstat.ticktuck.tech
+https://pokemon-calcstats.ticktuck.tech
 
 ※ 現在、PC版のみの提供となります。スマホ版はデザイン中です  
 ※ 現在、鋭意制作中です
