@@ -1,5 +1,5 @@
 import { useLiveQuery } from 'dexie-react-hooks'
-import { FC, useState } from 'react'
+import { FC, FormEventHandler, useState } from 'react'
 
 import { Pokemon, pokemonDb } from '../models/pokemonDb'
 import { actions } from '../modules/mainPokemon'
@@ -23,7 +23,7 @@ const mainSearchBar: FC<{ className?: string }> = props => {
             .toArray()
     }, [text])
 
-    const handleInput: React.FormEventHandler<HTMLInputElement> = e => {
+    const handleInput: FormEventHandler<HTMLInputElement> = e => {
         const inputText = e.currentTarget.value
         setInputting(true)
         setText(inputText)

@@ -1,10 +1,10 @@
-import { Chart as ChartJS, RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend } from 'chart.js'
+import { Chart as ChartJS, RadialLinearScale, PointElement, LineElement, Filler, Legend } from 'chart.js'
 import { Radar } from 'react-chartjs-2'
 
 import { mainPokemonSelector } from '../modules/mainPokemon'
 import { useAppSelector } from '../modules/store'
 
-ChartJS.register(RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend)
+ChartJS.register(RadialLinearScale, PointElement, LineElement, Filler, Legend)
 
 const PokemonChart = () => {
     const { baseStats, actualValue } = useAppSelector(mainPokemonSelector)
