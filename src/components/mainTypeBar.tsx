@@ -1,21 +1,27 @@
-import { FC, FormEventHandler } from 'react'
+import { FC } from 'react'
+import Select, { ActionMeta, SingleValue, ContainerProps, ControlProps, GroupBase, components } from 'react-select'
 
 import { actions, mainPokemonSelector } from '../modules/mainPokemon'
 import { useAppDispatch, useAppSelector } from '../modules/store'
-import { allTypes } from '../modules/utils/types'
+import { typeOptions } from '../modules/utils/types'
 
 const BaseTypeBar: FC<{ className?: string }> = props => {
     const mainPokemon = useAppSelector(mainPokemonSelector)
 
     return (
         <div className={'form-floating ' + props.className}>
-            <input
-                className='form-control form-control-sm'
-                style={{ background: 'none' }}
-                type='text'
-                disabled
-                value={mainPokemon.types.join('  ')}
-            />
+            <div className='form-control form-control-sm d-flex align-items-center justify-content-around'>
+                {mainPokemon.types.map(type => {
+                    return (
+                        <img
+                            style={{ maxWidth: 'calc(50% - 2px)', maxHeight: '1.2rem' }}
+                            key={type}
+                            src={`/type_imgs/${type}.webp`}
+                            alt={`${type}タイプ`}
+                        />
+                    )
+                })}
+            </div>
             <label>
                 <span>基本タイプ</span>
             </label>
@@ -23,33 +29,11 @@ const BaseTypeBar: FC<{ className?: string }> = props => {
     )
 }
 
-const TerastalTypeSelect: FC<{ className?: string }> = props => {
-    const dispatch = useAppDispatch()
-    const mainPokemon = useAppSelector(mainPokemonSelector)
-
-    const handleChange: FormEventHandler<HTMLSelectElement> = e => {
-        const value = e.currentTarget.value as Types
-        dispatch(actions.setTerastalType(value))
-    }
-
+// For <TerastalTypeSelect />
+const SelectContainer = ({ children, ...props }: ContainerProps<TypeOption>) => {
     return (
         <div className={'form-floating ' + props.className}>
-            <select
-                className='form-control form-control-sm form-select'
-                value={mainPokemon.terastalType}
-                onChange={handleChange}
-            >
-                {allTypes.map((v, i) => {
-                    return (
-                        <option
-                            value={v}
-                            key={`main_terastal_type_${i}`}
-                        >
-                            {v}
-                        </option>
-                    )
-                })}
-            </select>
+            {children}
             <label>
                 <span>テラスタイプ</span>
             </label>
@@ -57,11 +41,52 @@ const TerastalTypeSelect: FC<{ className?: string }> = props => {
     )
 }
 
+// For <TerastalTypeSelect />
+const ControlComponent = (props: ControlProps<TypeOption, false, GroupBase<TypeOption>>) => (
+    <components.Control
+        {...props}
+        className='form-control form-control-sm p-0'
+    />
+)
+
+const TerastalTypeSelect: FC<{ className?: string }> = props => {
+    const dispatch = useAppDispatch()
+    const mainPokemon = useAppSelector(mainPokemonSelector)
+
+    const handleChange = (option: SingleValue<TypeOption>, _: ActionMeta<TypeOption>) => {
+        const new_value = option?.value || 'ノーマル'
+        dispatch(actions.setTerastalType(new_value))
+    }
+
+    return (
+        <Select<TypeOption, false>
+            value={{
+                label: mainPokemon.terastalType,
+                value: mainPokemon.terastalType,
+            }}
+            className={props.className}
+            options={typeOptions}
+            onChange={handleChange}
+            isSearchable={false}
+            isClearable={false}
+            components={{ SelectContainer, Control: ControlComponent }}
+            styles={{ dropdownIndicator: base => ({ ...base, padding: '0 2px' }) }}
+            formatOptionLabel={option => (
+                <img
+                    style={{ maxHeight: '1.2rem' }}
+                    src={`/type_imgs/${option.value}.webp`}
+                    alt={`${option.value}タイプ`}
+                />
+            )}
+        />
+    )
+}
+
 const PokemonTypeBar: FC<{ className?: string }> = props => {
     return (
         <div className={'row ' + props.className}>
-            <BaseTypeBar className='col col-6' />
-            <TerastalTypeSelect className='col col-6' />
+            <BaseTypeBar className='col col-7' />
+            <TerastalTypeSelect className='col col-5' />
         </div>
     )
 }

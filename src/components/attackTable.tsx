@@ -333,6 +333,20 @@ const PokemonType: FC<{ id: string }> = props => {
             onChange={handleChange}
             isSearchable={false}
             isClearable={false}
+            styles={{
+                control: base => ({ ...base, padding: 0 }),
+                dropdownIndicator: base => ({ ...base, padding: '0 2px' }),
+                multiValue: base => ({ ...base, padding: 0 }),
+                multiValueLabel: base => ({ ...base, maxHeight: '1.2rem', padding: 0, paddingLeft: 0 }),
+                multiValueRemove: base => ({ ...base, padding: 0 }),
+            }}
+            formatOptionLabel={option => (
+                <img
+                    style={{ maxHeight: '1.2rem', verticalAlign: 'initial' }}
+                    src={`/type_imgs/${option.value}.webp`}
+                    alt={`${option.value}タイプ`}
+                />
+            )}
         />
     )
 }
